@@ -1,0 +1,10 @@
+numpy
+Pillow
+requests
+matplotlib
+opencv-contrib-python
+scipy
+scikit-image
+mahotas
+sip
+PyQt5
