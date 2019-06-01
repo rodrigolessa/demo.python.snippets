@@ -1,2 +1,2 @@
 # demo.python.snippets
-Python codes for studies proposal
+A collection of useful Python codes for studies proposal.
