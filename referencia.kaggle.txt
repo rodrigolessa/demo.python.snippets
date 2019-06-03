@@ -1,0 +1,73 @@
+#SET UP
+import pandas as pd
+pd.set_option('max_rows', 5)
+from learntools.advanced_pandas.creating_reading_writing import *
+
+# Checking answers
+check_q1(pd.DataFrame())
+
+import pandas as pd
+pd.DataFrame({'Yes': [50, 21], 'No': [131, 2]})
+pd.DataFrame({'Apples': [35, 41], 'Bananas': [21, 24]}, index={'2017 Sales', '2018 Sales'})
+
+pd.Series([1, 2, 3, 4, 5])
+pd.Series([30, 35, 40], index=['2015 Sales', '2016 Sales', '2017 Sales'], name='Product A')
+pd.Series(['4 cups', '1 cup', '2 large', '1 can'], index=['Flour', 'Milk', 'Eggs', 'Spam'], name='Dinner')
+
+# Reading common file formats
+
+wine_reviews = pd.read_csv("../input/wine-reviews/winemag-data-130k-v2.csv")
+wine_reviews.shape
+wine_reviews.head()
+
+# The pandas read_csv function is well-endowed, with over 30 optional parameters you can specify. For example, you can see in this dataset that the csv file has an in-built index, which pandas did not pick up on automatically. To make pandas use that column for the index (instead of creating a new one from scratch), we may specify and use an index_col.
+
+wine_reviews = pd.read_csv("../input/wine-reviews/winemag-data-130k-v2.csv", index_col=0)
+wine_reviews.head()
+
+../input/wine-reviews/winemag-data_first150k.csv
+
+
+Let's look at a few more datatypes you're likely to encounter.
+
+First up, the venerable Excel spreadsheet. An Excel file (XLS or XLST) organizes itself as a sequence of named sheets. Each sheet is basically a table. So to load the data into pandas we need one additional parameter: the name of the sheet of interest.
+
+wic = pd.read_excel("../input/publicassistance/xls_files_all/WICAgencies2013ytd.xls", 
+                    sheet_name='Total Women')
+wic.head()
+
+
+
+Connecting to a SQL database requires a lot more thought than reading from an Excel file. For one, you need to create a connector, something that will handle siphoning data from the database.
+
+
+pandas won't do this for you automatically because there are many, many different types of SQL databases out there, each with its own connector. So for a SQLite database (the only kind supported on Kaggle), you would need to first do the following (using the sqlite3 library that comes with Python):
+
+
+
+import sqlite3
+conn = sqlite3.connect("../input/188-million-us-wildfires/FPA_FOD_20170508.sqlite")
+
+fires = pd.read_sql_query("SELECT * FROM fires", conn)
+
+fires.head()
+
+
+
+
+Writing common file formats
+
+
+wine_reviews.head().to_csv("wine_reviews.csv")
+
+To write an Excel file back you need to_excel and the sheet_name again:
+
+wic.to_excel('wic.xlsx', sheet_name='Total Women')
+
+conn = sqlite3.connect("fires.sqlite")
+fires.head(10).to_sql("fires", conn)
+
+
+
+The filepath is `../input/pitchfork-data/database.sqlite`. 
+Hint: use the `sqlite3` library. The name of the table is `artists`.
